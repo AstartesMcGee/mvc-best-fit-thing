@@ -11,35 +11,45 @@ np.set_printoptions(precision=5, suppress=True) #sets the final displayed value
 
 #------------------------------------------------------------------------------------------
 #inputs along with some input checking logic
-proceed = False
 
 while True:
-    try:
-        highest = int(input("What typa best fit function (linear, quadratic, cubic, etc.): "))
-        break
-    except ValueError:
-        print("Not a valid answer! Try again!")
-
-while proceed == False:
     while True:
         try:
-            x = np.array(list(map(float, input("Only x-values (space-separated): ").split())))
-            break
-        except ValueError:
-            print("Invalid input! Try again!")
+            highest = int(input("What typa best fit function (linear, quadratic, cubic, etc.): "))
 
-    while True:
-        try:
-            y = np.array(list(map(float, input("Only y-values (space-separated): ").split())))
-            break
-        except ValueError:
-            print("Invalid input! Try again!")
+            if highest >= 0:
+                break
+            print("Degree must be nonnegative!")
 
-    if y.size != x.size:
-        proceed = False
-        print("Number of x-values does not match number of y-values")
-    else:
-        proceed = True
+        except ValueError:
+            print("Not a valid answer! Try again!")
+
+    proceed = False
+
+    while proceed == False:
+        while True:
+            try:
+                x = np.array(list(map(float, input("Only x-values (space-separated): ").split())))
+                break
+            except ValueError:
+                print("Invalid input! Try again!")
+
+        while True:
+            try:
+                y = np.array(list(map(float, input("Only y-values (space-separated): ").split())))
+                break
+            except ValueError:
+                print("Invalid input! Try again!")
+
+        if y.size != x.size:
+            print("Number of x-values does not match number of y-values")
+        else:
+            proceed = True
+
+    if np.unique(x).size < highest + 1:
+        print("Not enough distinct x-values for this polynomial degree!")
+        continue
+    break
 
 #------------------------------------------------------------------------------------------
 #calculating the left matrix
