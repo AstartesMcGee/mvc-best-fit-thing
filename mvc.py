@@ -1,6 +1,18 @@
 #best fit thing made for MVC 2026-27
 import numpy as np #deadahh purpose built for ts
+import tkinter as tk
+from tkinter import filedialog
+
+
 np.set_printoptions(precision=5, suppress=True) #sets the final displayed value
+root = tk.Tk()
+root.withdraw()
+
+
+
+
+
+
 
 #------------------------------------------------------------------------------------------
 #leftover debug stuff
@@ -10,10 +22,40 @@ np.set_printoptions(precision=5, suppress=True) #sets the final displayed value
 # y = np.array([1, 4, 2, 7, 12])
 
 #------------------------------------------------------------------------------------------
-#inputs along with some input checking logic
+#its a choice
+print("File upload (F) or manual input (M)?")
 
 while True:
-    while True:
+    choice = input("F or M: ").strip().upper()
+
+    if choice in ("F", "M"):
+        break
+
+    print("Invalid input! Please enter F or M.")
+
+#------------------------------------------------------------------------------------------
+#file upload option
+
+if choice == "F":
+    
+    filename = filedialog.askopenfilename(
+        title="Select your data file",
+        filetypes=[("Text files", "*.txt")]
+    )
+
+    if filename:
+        data = np.loadtxt(filename)
+
+        x = data[:, 0]
+        y = data[:, 1]
+
+        print("File loaded successfully!")
+    else:
+        print("No file selected.")
+
+    root.destroy()
+
+    while True: #literally just copy pasted from below
         try:
             highest = int(input("What typa best fit function (linear, quadratic, cubic, etc.): "))
 
@@ -24,32 +66,48 @@ while True:
         except ValueError:
             print("Not a valid answer! Try again!")
 
-    proceed = False
+#------------------------------------------------------------------------------------------
+#inputs along with some input checking logic
 
-    while proceed == False:
+if choice == "M":
+    while True:
         while True:
             try:
-                x = np.array(list(map(float, input("Only x-values (space-separated): ").split())))
-                break
+                highest = int(input("What typa best fit function (linear, quadratic, cubic, etc.): "))
+
+                if highest >= 0:
+                    break
+                print("Degree must be nonnegative!")
+
             except ValueError:
-                print("Invalid input! Try again!")
+                print("Not a valid answer! Try again!")
 
-        while True:
-            try:
-                y = np.array(list(map(float, input("Only y-values (space-separated): ").split())))
-                break
-            except ValueError:
-                print("Invalid input! Try again!")
+        proceed = False
 
-        if y.size != x.size:
-            print("Number of x-values does not match number of y-values")
-        else:
-            proceed = True
+        while proceed == False:
+            while True:
+                try:
+                    x = np.array(list(map(float, input("Only x-values (space-separated): ").split())))
+                    break
+                except ValueError:
+                    print("Invalid input! Try again!")
 
-    if np.unique(x).size < highest + 1:
-        print("Not enough distinct x-values for this polynomial degree!")
-        continue
-    break
+            while True:
+                try:
+                    y = np.array(list(map(float, input("Only y-values (space-separated): ").split())))
+                    break
+                except ValueError:
+                    print("Invalid input! Try again!")
+
+            if y.size != x.size:
+                print("Number of x-values does not match number of y-values")
+            else:
+                proceed = True
+
+        if np.unique(x).size < highest + 1:
+            print("Not enough distinct x-values for this polynomial degree!")
+            continue
+        break
 
 #------------------------------------------------------------------------------------------
 #calculating the left matrix
