@@ -8,12 +8,6 @@ np.set_printoptions(precision=5, suppress=True) #sets the final displayed value
 root = tk.Tk()
 root.withdraw()
 
-
-
-
-
-
-
 #------------------------------------------------------------------------------------------
 #leftover debug stuff
 # highest = 3
