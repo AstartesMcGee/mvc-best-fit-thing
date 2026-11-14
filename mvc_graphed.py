@@ -69,7 +69,7 @@ if choice == "M":
     while True:
         while True:
             try:
-                highest = int(input("What typa best fit function (linear, quadratic, cubic, etc.): "))
+                highest = int(input("Highest degree in your best fit polynomial: "))
 
                 if highest >= 0:
                     break
